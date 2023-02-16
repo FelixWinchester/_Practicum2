@@ -1,3 +1,5 @@
+//* faili-III-6.cpp *\\
+
 #include <iostream>
 #include <fstream>
 #include <string>
