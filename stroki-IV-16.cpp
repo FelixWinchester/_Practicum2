@@ -1,4 +1,6 @@
-//Файл - sueta.txt.txt//
+//* stroki-IV-16 *\\
+//* Файл - sueta.txt.txt *\\
+
 #include <iostream>
 #include <windows.h>
 #include <cmath>
