@@ -5,8 +5,6 @@
 #include <string>
 using namespace std;
 int main(){
-    SetConsoleCP(1251);
-    SetConsoleOutputCP(1251);
     auto counter = 0;
     string s,b;
     ifstream in("sueta.txt.txt");
