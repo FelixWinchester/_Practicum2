@@ -1,4 +1,5 @@
 //* faili-III-6.cpp *\\
+//* Файл - sueta.txt *\\
 
 #include <iostream>
 #include <fstream>
