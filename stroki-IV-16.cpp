@@ -1,5 +1,5 @@
 //* stroki-IV-16 *\\
-//* Файл - sueta.txt.txt *\\
+//* Файл - sueta.txt.txt *\\ //Зачтено
 
 #include <iostream>
 #include <windows.h>
