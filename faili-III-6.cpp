@@ -1,18 +1,35 @@
 //* faili-III-6.cpp *\\
 //* Файл - sueta.txt *\\
 
+
 #include <iostream>
 #include <fstream>
 #include <string>
 using namespace std;
 int main() {
-    ifstream in("sueta.txt"); //Вхождение в файл.
-    int sunset; //Просто переменная
-    while (in >> sunset) { //Буквально: Читаем до конца файла.
-        if (sunset < 0) { //Проверка на знак числа
-            cout << sunset << "\t"; //Вывод
-        }
+    /*
+    int kolichestvo, x;
+    ofstream fout("sueta.bin", ios_base::binary);
+    cin >> kolichestvo;
+    for (int i=0; i < kolichestvo; i++){
+        cin >> x;
+    fout.write((char*)&x, sizeof(int));
     }
-    in.close(); //Выход из файла
+    fout.close();
     return 0;
+    */
+   
+   int aboba;
+   ifstream fout("sueta.bin", ios_base::binary);
+    
+   
+   while (fout.eof()){
+    fout.read((char*)&aboba, sizeof(int));
+    
+   }
+   cout << aboba << endl;
+   fout.close();
+    return 0;
+    
+    
 }
