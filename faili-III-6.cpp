@@ -1,13 +1,12 @@
 //* faili-III-6.cpp *\\
-//* Файл - sueta.txt *\\
-
 
 #include <iostream>
 #include <fstream>
 #include <string>
 using namespace std;
 int main() {
-    /*
+    
+    
     int kolichestvo, x;
     ofstream fout("sueta.bin", ios_base::binary);
     cin >> kolichestvo;
@@ -16,19 +15,18 @@ int main() {
     fout.write((char*)&x, sizeof(int));
     }
     fout.close();
-    return 0;
-    */
+    
    
    int aboba;
-   ifstream fout("sueta.bin", ios_base::binary);
-    
-   
-   while (fout.eof()){
-    fout.read((char*)&aboba, sizeof(int));
-    
-   }
+   ifstream fin("sueta.bin", ios_base::binary);
+   while (fin.peek() != EOF){
+    fin.read((char*)&aboba, sizeof(int));
+    if (aboba < 0){
    cout << aboba << endl;
-   fout.close();
+        }
+   }
+   
+    fin.close();
     return 0;
     
     
