@@ -1,4 +1,4 @@
-//* faili-III-6.cpp *\\
+//* faili-III-6.cpp *\\ //зачтено
 
 #include <iostream>
 #include <fstream>
