@@ -29,11 +29,11 @@ public:
     // Дальше бога нет, есть только перегрузки... //
 
     Vector operator+(const Vector& death) {
-        return Vector(x + death.x, y + death.y);
+        return Vector(x + death.x, y + death.y); // К значению текущих объектов X и Y прибавляется значение текущего метода
     }
     
     Vector operator-(const Vector& death) {
-        return Vector(x - death.x, y - death.y);
+        return Vector(x - death.x, y - death.y); // Из значения текущего объекта X и Y вычитается значение текущего метода
     }
     
     int operator*(const Vector& death) {
