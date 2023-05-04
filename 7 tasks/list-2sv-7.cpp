@@ -1,87 +1,107 @@
-#include <iostream>
+
+#include <iostream> //подключение стандартной библиотеки ввода-вывода
+#include <fstream> //подключение библиотеки работы с файлами
+
 using namespace std;
 
-// класс узла списка
-class Node {
+class Node { //определение класса "узел"
 public:
-    int value; // значение узла
-    Node* next; // указатель на следующий узел
-    Node* prev; // указатель на предыдущий узел
-    // конструктор узла с заданием его значения и указателей
-    Node(int value) {
-        this->value = value;
-        this->next = nullptr;
-        this->prev = nullptr;
+    int data; //поле "данные"
+    Node* prev; //указатель на предыдущий элемент списка
+    Node* next; //указатель на следующий элемент списка
+    Node(int d) { //конструктор, инициализирующий поле "данные" и указатели на NULL
+        data = d;
+        prev = NULL;
+        next = NULL;
     }
 };
 
-// класс двусвязного списка
-class LinkedList {
+class List { //определение класса "связный список"
 public:
-    Node* head; // указатель на первый элемент списка
-    Node* tail; // указатель на последний элемент списка
-    // конструктор списка с инициализацией указателей
-    LinkedList() {
-        this->head = nullptr;
-        this->tail = nullptr;
+    Node* head; //указатель на первый элемент списка
+    Node* tail; //указатель на последний элемент списка
+    List() { //конструктор по умолчанию, инициализирующий указатели на NULL
+        head = NULL;
+        tail = NULL;
     }
-    // добавление элемента в конец списка
-    void add(int value) {
-        Node* node = new Node(value); // создание нового узла
-        if (this->tail == nullptr) { // если список пуст
-            this->head = node; // устанавливаем указатели на новый узел
-            this->tail = node;
-        } else { // если список не пуст
-            node->prev = this->tail; // устанавливаем указатели на новый узел и предыдущий узел
-            this->tail->next = node;
-            this->tail = node; // обновляем указатель на последний узел
+    void addNode(int d) { //метод добавления нового элемента в конец списка
+        Node* newNode = new Node(d); //создание нового элемента
+        if (head == NULL) { //если список пустой
+            head = newNode;
+            tail = newNode;
+        }
+        else { //если список не пустой
+            tail->next = newNode;
+            newNode->prev = tail;
+            tail = newNode;
         }
     }
-    // вывод списка на экран
-    void print() {
-        Node* node = this->head; // начинаем с первого узла
-        while (node != nullptr) { // пока не достигнем конца списка
-            cout << node->value << " "; // выводим значение узла
-            node = node->next; // переходим к следующему узлу
+    void printList() { //метод вывода списка на экран
+        Node* temp = head;
+        while (temp != NULL) {
+            cout << temp->data << " ";
+            temp = temp->next;
         }
-        cout << endl; // переходим на новую строку
+        cout << endl;
     }
-    // замена повторяющихся элементов
-    void replace() {
-        Node* node = this->head; // начинаем с первого узла
-        while (node != nullptr) { // пока не достигнем конца списка
-            Node* next = node->next; // сохраняем указатель на следующий узел
-            int value = node->value; // сохраняем значение текущего узла
-            while (next != nullptr && next->value == value) { // проходим по всем повторяющимся элементам
-                Node* temp = next; // сохраняем указатель на текущий узел
-                next = next->next; // переходим к следующему узлу
-                delete temp; // удаляем текущий узел
+    void replaceRepeated() { //метод замены повторяющихся элементов на один элемент
+        Node* temp = head;
+        while (temp != NULL) {
+            int data = temp->data; //запоминаем значение текущего элемента
+            int count = 1; //счётчик повторяющихся элементов
+            Node* curr = temp->next; //указатель на следующий элемент списка
+            while (curr != NULL && curr->data == data) { //пока следующий элемент равен текущему
+                count++; //увеличиваем счётчик
+                curr = curr->next; //переходим к следующему элементу
             }
-            node->next = next; // обновляем указатель на следующий узел
-            if (next != nullptr) { // если следующий узел не является последним
-                next->prev = node; // обновляем указатель на предыдущий узел
+            if (count > 1) { //если повторяющиеся элементы есть
+                Node* newNode = new Node(data); //создаём новый элемент с данными текущего элемента
+                newNode->prev = temp->prev; //устанавливаем связи между элементами
+                newNode->next = curr;
+                if (temp->prev != NULL) {
+                    temp->prev->next = newNode;
+                }
+                else {
+                    head = newNode;
+                }
+                if (curr != NULL) {
+                    curr->prev = newNode;
+                }
+                else {
+                    tail = newNode;
+                }
+                temp = curr; //продвигаем указатель на следующий за повторяющимися элементами
             }
-            node = next; // переходим к следующему узлу
+            else {
+                temp = temp->next; //продвигаем указатель на следующий элемент
+            }
         }
+    }
+    void readFile(string fileName) { //метод чтения данных из файла
+        ifstream fin(fileName);
+        int data;
+        while (fin >> data) { //пока есть данные в файле
+            addNode(data); //добавляем данные в список
+        }
+        fin.close(); //закрываем файл
+    }
+    void writeFile(string fileName) { //метод записи данных из списка в файл
+        ofstream fout(fileName);
+        Node* temp = head;
+        while (temp != NULL) { //пока не закончились элементы списка
+            fout << temp->data << " "; //записываем данные в файл
+            temp = temp->next; //переходим к следующему элементу
+        }
+        fout.close(); //закрываем файл
     }
 };
 
-// функция main
 int main() {
-    LinkedList list; // создаем объект класса LinkedList
-    // добавляем элементы в список
-    list.add(1);
-    list.add(2);
-    list.add(2);
-    list.add(3);
-    list.add(3);
-    list.add(3);
-    list.add(4);
-    list.add(4);
-    list.add(4);
-    list.add(4);
-    list.print(); // выводим список на экран
-    list.replace(); // заменяем повторяющиеся элементы
-    list.print(); // выводим обновленный список на экран
+    List list;
+    list.readFile("input.txt"); //чтение данных из файла
+    list.printList(); //вывод исходного списка на экран 
+    list.replaceRepeated(); //замена повторяющихся элементов на один элемент
+    list.printList(); //вывод результирующего списка на экран
+    list.writeFile("output.txt"); //запись результирующего списка в файл
     return 0;
 }
