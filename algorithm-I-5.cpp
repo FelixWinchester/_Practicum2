@@ -7,12 +7,12 @@
 using namespace std;
 
 int main() {
-    vector<pair<int, int>> points = {{1, 2}, {3, 4}, {5, 4}, {2, 1}, {4, 5}};
+    vector<pair<int, int>> points = {{1, 2}, {3, 4}, {5, 4}, {2, 1}, {4, 5}}; // объявление и инициализация вектора точек точками с заданными координатами.
     points.erase(remove_if(points.begin(), points.end(), [](const pair<int, int>& p) {
-        return p.second < p.first;
-    }), points.end());
+        return p.second < p.first; // Удаление точек из вектора, удовлетворяющих заданному условию, с помощью функций erase() и remove_if().       
+    }), points.end());            // условие задается в лямбда-выражении.
 
-    for (const auto& p : points) {
+    for (const auto& p : points) { // цикл, выводящий на экран каждую точку из вектора.
         cout << "(" << p.first << ", " << p.second << ")" << endl;
     }
     return 0;
@@ -29,9 +29,9 @@ using namespace std;
 
 int main() {
     vector<pair<int, int>> points = {{1, 2}, {3, 4}, {5, 4}, {2, 1}, {4, 5}};
-    points.erase(remove_if(points.begin(), points.end(), [](const pair<int, int>& p) {
-        return p.second > p.first;
-    }), points.end());
+    points.erase(remove_if(points.begin(), points.end(), [](const pair<int, int>& p) { // удаление точек из вектора, удовлетворяющих заданному условию,
+        return p.second > p.first;  
+    }), points.end()); //с помощью функций erase() и remove_if(). Условие задается в лямбда-выражении
 
     for (const auto& p : points) {
         cout << "(" << p.first << ", " << p.second << ")" << endl;
