@@ -1,103 +1,33 @@
-//а) Удаление точек, лежащих ниже y=x:
+#include <iostream> 
+#include <vector> // подключаем библиотеку для работы с векторами
+#include <algorithm> // подключаем библиотеку для работы с алгоритмами
+#include <numeric> // подключаем библиотеку для работы с числовыми алгоритмами
+#include <utility> // подключаем библиотеку для работы с парами
+using namespace std; 
 
+int main() { // основная функция программы
+    vector<pair<int, int>> points = {{1, 2}, {3, 4}, {5, 6}, {7, 8}, {9, 10}}; // создаем вектор пар координат точек и заполняем его
 
-#include <iostream>
-#include <algorithm>
-#include <vector>
-using namespace std;
+    // а) удалить все точки, лежащие выше y = x
+    points.erase(remove_if(points.begin(), points.end(), [](const pair<int, int>& p) { return p.second > p.first; }), points.end()); // удаляем все точки, лежащие выше y = x
 
-int main() {
-    vector<pair<int, int>> points = {{1, 2}, {3, 4}, {5, 4}, {2, 1}, {4, 5}}; // объявление и инициализация вектора точек точками с заданными координатами.
-    points.erase(remove_if(points.begin(), points.end(), [](const pair<int, int>& p) {
-        return p.second < p.first; // Удаление точек из вектора, удовлетворяющих заданному условию, с помощью функций erase() и remove_if().       
-    }), points.end());            // условие задается в лямбда-выражении.
+    // б) подсчитать количество точек, лежащих на прямой y = -x
+    int count = count_if(points.begin(), points.end(), [](const pair<int, int>& p) { return p.second == -p.first; }); // считаем количество точек, лежащих на прямой y = -x
+    cout << "Number of points on y = -x: " << count << endl; // выводим количество таких точек на экран
 
-    for (const auto& p : points) { // цикл, выводящий на экран каждую точку из вектора.
-        cout << "(" << p.first << ", " << p.second << ")" << endl;
+    // в) найти первую точку, у которой x > y
+    auto it = find_if(points.begin(), points.end(), [](const pair<int, int>& p) { return p.first > p.second; }); // находим первую точку, у которой x > y
+    if (it != points.end()) { // если такая точка найдена
+        cout << "First point with x > y: (" << it->first << ", " << it->second << ")" << endl; // выводим ее координаты на экран
+    } else { // если такой точки нет
+        cout << "No point with x > y found" << endl; // выводим сообщение, что такой точки нет
     }
-    return 0;
-}
 
+    // г) расположить в порядке возрастания координаты y
+    sort(points.begin(), points.end(), [](const pair<int, int>& p1, const pair<int, int>& p2) { return p1.second < p2.second; }); // сортируем точки по возрастанию координаты y
 
-//б) Удаление точек, лежащих выше y=x:
-
-
-#include <iostream>
-#include <algorithm>
-#include <vector>
-using namespace std;
-
-int main() {
-    vector<pair<int, int>> points = {{1, 2}, {3, 4}, {5, 4}, {2, 1}, {4, 5}};
-    points.erase(remove_if(points.begin(), points.end(), [](const pair<int, int>& p) { // удаление точек из вектора, удовлетворяющих заданному условию,
-        return p.second > p.first;  
-    }), points.end()); //с помощью функций erase() и remove_if(). Условие задается в лямбда-выражении
-
-    for (const auto& p : points) {
-        cout << "(" << p.first << ", " << p.second << ")" << endl;
+    // вывод списка точек на экран
+    for (const auto& point : points) { // для каждой точки в векторе
+        cout << "(" << point.first << ", " << point.second << ")" << endl; // выводим ее координаты на экран
     }
-    return 0;
-}
-
-
-//в) Подсчет количества точек, лежащих на прямой y=-x:
-
-
-#include <iostream>
-#include <algorithm>
-#include <vector>
-using namespace std;
-
-int main() {
-    vector<pair<int, int>> points = {{1, -1}, {2, -2}, {-3, 3}, {4, -4}, {-5, 5}};
-    int count = count_if(points.begin(), points.end(), [](const pair<int, int>& p) {
-        return p.second == -p.first;
-    });
-
-    cout << "Number of points on the line y=-x: " << count << endl;
-    return 0;
-}
-
-
-//г) Нахождение первой точки, у которой x>y:
-
-
-#include <iostream>
-#include <algorithm>
-#include <vector>
-using namespace std;
-
-int main() {
-    vector<pair<int, int>> points = {{1, 2}, {3, 4}, {5, 4}, {2, 1}, {4, 5}};
-    auto it = find_if(points.begin(), points.end(), [](const pair<int, int>& p) {
-        return p.first > p.second;
-    });
-
-    if (it != points.end()) {
-        cout << "First point where x>y: (" << it->first << ", " << it->second << ")" << endl;
-    } else {
-        cout << "No point where x>y found" << endl;
-    }
-    return 0;
-}
-
-
-//д) Сортировка точек по возрастанию координаты y:
-
-
-#include <iostream>
-#include <algorithm>
-#include <vector>
-using namespace std;
-
-int main() {
-    vector<pair<int, int>> points = {{1, 2}, {3, 4}, {5, 4}, {2, 1}, {4, 5}};
-    sort(points.begin(), points.end(), [](const pair<int, int>& p1, const pair<int, int>& p2) {
-        return p1.second < p2.second;
-    });
-
-    for (const auto& p : points) {
-        cout << "(" << p.first << ", " << p.second << ")" << endl;
-    }
-    return 0;
 }
