@@ -1,95 +1,80 @@
 #include <iostream>
 #include <fstream>
 using namespace std;
-
-// Описание класса Stack
-class Stack {
-// Объявление закрытых полей класса
-private:
-    int* arr; // Указатель на массив элементов стека
-    int top; // Индекс верхнего элемента стека
-    int size; // Размер стека
-// Объявление открытых методов класса
+class IntList {
 public:
-    // Конструктор класса Stack
-    Stack(int s) {
-        size = s;
-        arr = new int[size];
-        top = -1;
-    }
-    // Деструктор класса Stack
-    ~Stack() {
-        delete[] arr;
-    }
-    // Метод для добавления элемента в стек
-    void push(int num) {
-        // Проверка на переполнение стека
-        if (top == size - 1) {
-            cout << "Stack overflow" << endl;
-            return;
+    struct Node {
+        int value;
+        Node* next;
+        Node(int val) : value(val), next(nullptr) {}
+    };
+
+    IntList() : head(nullptr), tail(nullptr) {}
+
+    ~IntList() {
+        Node* current = head;
+        while (current != nullptr) {
+            Node* next = current->next;
+            delete current;
+            current = next;
         }
-        top++;
-        arr[top] = num;
     }
-    // Метод для удаления элемента из стека
-    int pop() {
-        // Проверка на пустоту стека
-        if (top == -1) {
-            cout << "Stack underflow" << endl;
-            return -1;
+
+    void push_back(int value) {
+        Node* newNode = new Node(value);
+        if (tail == nullptr) {
+            head = tail = newNode;
+        } else {
+            tail->next = newNode;
+            tail = newNode;
         }
-        int num = arr[top];
-        top--;
-        return num;
     }
-    // Метод для получения верхнего элемента стека без его удаления
-    int peek() {
-        // Проверка на пустоту стека
-        if (top == -1) {
-            cout << "Stack is empty" << endl;
-            return -1;
+
+    void remove_consecutive_duplicates() {
+        Node* current = head;
+        while (current != nullptr && current->next != nullptr) {
+            if (current->value == current->next->value) {
+                Node* temp = current->next;
+                current->next = temp->next;
+                if (temp == tail) {
+                    tail = current;
+                }
+                delete temp;
+            } else {
+                current = current->next;
+            }
         }
-        return arr[top];
     }
-    // Метод для проверки на пустоту стека
-    bool isEmpty() {
-        return top == -1;
+
+    void print(ostream& out) const {
+        Node* current = head;
+        while (current != nullptr) {
+            out << current->value << " ";
+            current = current->next;
+        }
+        out << endl;
     }
+
+private:
+    Node* head;
+    Node* tail;
 };
 
-// Главная функция программы
 int main() {
-    // Открытие файлов для чтения и записи
-    ifstream fin("input.txt");
-    ofstream fout("output.txt");
-    // Чтение размера стека из файла
-    int n;
-    fin >> n;
-    // Создание объекта класса Stack
-    Stack s(n);
-    // Чтение первого элемента из файла и добавление его в стек
-    int num;
-    fin >> num;
-    s.push(num);
-    // Чтение остальных элементов из файла и добавление их в стек с проверкой на повторы
-    for (int i = 1; i < n; i++) {
-        fin >> num;
-        if (num == s.peek()) {
-            continue;
-        }
-        else {
-            while (!s.isEmpty()) {
-                fout << s.pop() << " ";
-            }
-            s.push(num);
-        }
+    ifstream input("input.txt");
+    ofstream output("output.txt");
+
+    IntList myList;
+    int value;
+    while (input >> value) {
+        myList.push_back(value);
     }
-    // Вывод оставшихся элементов стека в файл
-    while (!s.isEmpty()) {
-        fout << s.pop() << " ";
-    }
-    // Закрытие файлов
-    fin.close();
-    fout.close();
+
+    myList.remove_consecutive_duplicates();
+    myList.print(output);
+
+    input.close();
+    output.close();
+
     return 0;
 }
