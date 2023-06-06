@@ -17,16 +17,16 @@ int main() {
     int count = count_if(points.begin(), points.end(), [](const pair<int, int>& point) {
         return point.second == -point.first;
     });
-    cout << "Количество точек на прямой y = -x: " << count << endl;
+    cout << "Kol'vo tochek na pryamoi y = -x: " << count << endl;
 
     // в) найти первую точку, у которой x > y
     auto it = find_if(points.begin(), points.end(), [](const pair<int, int>& point) {
         return point.first > point.second;
     });
     if (it != points.end()) {
-        cout << "Первая точка, у которой x > y: (" << it->first << ", " << it->second << ")" << endl;
+        cout << "Pervaya tochka, y kotoroi x > y: (" << it->first << ", " << it->second << ")" << endl;
     } else {
-        cout << "Такой точки нет" << endl;
+        cout << "takoi tochki net" << endl;
     }
 
     // г) расположить в порядке возрастания координаты y
@@ -34,7 +34,7 @@ int main() {
         return a.second < b.second;
     });
 
-    cout << "Точки в порядке возрастания координаты y:" << endl;
+    cout << "Tochki v poryadke vozrastania y:" << endl;
     for (const auto& point : points) {
         cout << "(" << point.first << ", " << point.second << ")" << endl;
     }
