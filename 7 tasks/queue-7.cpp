@@ -1,10 +1,5 @@
-
-//Создать список из целых чисел, заменить каждую последовательность из повторяющихся элементов на од элемент
-#include <cstdlib>
 #include <iostream>
-#include <ctime>
 using namespace std;
-
 template <class Item>
 class Queue{
 struct Element{
