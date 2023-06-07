@@ -1,80 +1,70 @@
 #include <iostream>
-#include <fstream>
 using namespace std;
-class IntList {
-public:
-    struct Node {
-        int value;
-        Node* next;
-        Node(int val) : value(val), next(nullptr) {}
-    };
 
-    IntList() : head(nullptr), tail(nullptr) {}
-
-    ~IntList() {
-        Node* current = head;
-        while (current != nullptr) {
-            Node* next = current->next;
-            delete current;
-            current = next;
-        }
-    }
-
-    void push_back(int value) {
-        Node* newNode = new Node(value);
-        if (tail == nullptr) {
-            head = tail = newNode;
-        } else {
-            tail->next = newNode;
-            tail = newNode;
-        }
-    }
-
-    void remove_consecutive_duplicates() {
-        Node* current = head;
-        while (current != nullptr && current->next != nullptr) {
-            if (current->value == current->next->value) {
-                Node* temp = current->next;
-                current->next = temp->next;
-                if (temp == tail) {
-                    tail = current;
-                }
-                delete temp;
-            } else {
-                current = current->next;
-            }
-        }
-    }
-
-    void print(ostream& out) const {
-        Node* current = head;
-        while (current != nullptr) {
-            out << current->value << " ";
-            current = current->next;
-        }
-        out << endl;
-    }
-
-private:
-    Node* head;
-    Node* tail;
-};
-
-int main() {
-    ifstream input("input.txt");
-    ofstream output("output.txt");
-
-    IntList myList;
+class Stack{
+struct Elem{
     int value;
-    while (input >> value) {
-        myList.push_back(value);
+    Elem *next;
+    Elem(int x, Elem* p) : value(x), next(p) {}
+};
+Elem *head;
+public:
+    Stack() : head(0)  {}
+    bool isEmpty(){
+        return head == 0;
     }
-
-    myList.remove_consecutive_duplicates();
-    myList.print(output);
-
-    input.close();
-    output.close();
-
-    return 0;
+    int Pop(){
+        if (isEmpty()){
+            return 0;
+        }else{
+            Elem* r = head;
+            int temp_value = r -> value;
+            head = r -> next;
+            delete r;
+            return temp_value;
+        }
+    }
+    void Push(int data){
+        head = new Elem(data, head);
+    }
+    int Top(){
+        if (isEmpty()){
+            return 0;
+        }else{
+            return head -> value;
+        }
+    }
+};
+void removeDuplicates(Stack& s){
+    Stack tempStack; // Создали временный стек
+    int currentElement;
+    while(!s.isEmpty()){ // Пока основной стек не пуст
+        currentElement = s.Pop(); // Считываем элемент из стека
+        if(tempStack.isEmpty() || tempStack.Top() != currentElement){ // Если взятый элемент не равен следующему ему
+            // То пишем во временной стек это значение
+            tempStack.Push(currentElement);
+        }
+    }
+    // Переписываем все что уникальное насобирали в основной стек
+    while(!tempStack.isEmpty()){
+        s.Push(tempStack.Pop());
+    }
+}
+int main(){
+    Stack s;
+    int t, n = 14;
+    cout << "Enter stack, size = " << n << endl;
+    for (int i = 0; i < n; i++){
+        cin >> t;
+        s.Push(t);
+    }
+    removeDuplicates(s);
+    cout << "Result\n";
+    while (!s.isEmpty()){
+        cout << s.Pop() << " ";
+    }
+    cout << endl;
+    system("pause");
+     // 1 2 3 3 3 4 5 6 6 6 8 9 8 9 - test (14 чисел)
+    //  1 2 3 4 5 6 8 9 8 9 - res
 }
