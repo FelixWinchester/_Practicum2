@@ -12,6 +12,6 @@ int main() {
     cin >> a >> b;
     int g = gcd(a, b);
     cout << "НОД(" << a << ", " << b << ") = " << g << endl;
-    cout << "Сокращенная дроб: " << a/g << "/" << b/g << endl;
+    cout << "Сокращенная дробь: " << a/g << "/" << b/g << endl;
     return 0;
 }
