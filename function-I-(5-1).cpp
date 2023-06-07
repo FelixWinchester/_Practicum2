@@ -2,7 +2,7 @@
 using namespace std;
 
 int gcd(int n, int m) {
-    (m == 0) {
+    if (m == 0) {
         return n;
     }
     return gcd(m, n % m);
@@ -12,8 +12,8 @@ int main() {
     int a, b;
     cout << "Введите числа a и b: ";
     cin >> a >> b;
-    int g = gcd(a,);
-    cout << "НОД(" << a << ", " << b << ") = " << g << endl;
+    int g = gcd(a, b);
+    cout << "НОД(" << a << ", " << b << ") = " << << endl;
     cout << "Сокращенная дробь: " << a/g << "/" << b/g << endl;
- return 0;
+    return 0;
 }
