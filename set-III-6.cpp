@@ -49,12 +49,6 @@ int main() {
         pos = 0;
     }
 
-    // Создаем множество для хранения слов в восклицательных предложениях
- 
-
-    // Разбиваем текст на восклицательные предложения
-    
-
     // Создаем можество для хранения слов, которые не встречаются в восклицательных предложениях
     set<string> result;
     set_difference(words.begin(), words.end(), exclamatory_words.begin(), exclamatory_words.end(), inserter(result, result.end()));
